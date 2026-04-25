@@ -275,55 +275,58 @@
 
     @media (max-width: 640px) {
       .page-wrap {
-        padding: 8px;
+        padding: 6px;
         align-items: stretch;
       }
 
       .diary {
         width: 100%;
-        min-height: calc(100vh - 16px);
-        padding: 12px;
+        min-height: calc(100vh - 12px);
+        padding: 8px;
         border-radius: 18px;
       }
 
       .diary::before {
-        left: 9px;
+        left: 7px;
         width: 6px;
       }
 
       .inner-page {
-        margin-left: 7px;
-        min-height: calc(100vh - 40px);
-        padding: 24px 16px 20px;
+        margin-left: 6px;
+        min-height: calc(100vh - 28px);
+        padding: 28px 16px 24px;
         border-radius: 16px;
       }
 
       .diary-header {
-        margin-bottom: 20px;
-        padding-bottom: 16px;
+        margin-bottom: 26px;
+        padding-bottom: 18px;
       }
 
       .top-secret {
-        font-size: 11px;
-        letter-spacing: 1.8px;
+        font-size: 15px;
+        letter-spacing: 1.4px;
       }
 
       h1 {
-        font-size: 32px;
+        font-size: 52px;
+        line-height: 1.2;
       }
 
       .subtitle {
-        font-size: 15px;
+        font-size: 24px;
+        line-height: 1.5;
       }
 
       .guide {
-        font-size: 16px;
-        margin-bottom: 14px;
+        font-size: 26px;
+        line-height: 1.6;
+        margin-bottom: 20px;
       }
 
       .search-row {
         flex-direction: column;
-        gap: 8px;
+        gap: 12px;
       }
 
       input,
@@ -332,32 +335,50 @@
       }
 
       input {
-        padding: 14px 15px;
-        font-size: 17px;
+        padding: 22px 18px;
+        font-size: 26px;
+        border-radius: 18px;
+      }
+
+      input::placeholder {
+        font-size: 26px;
+      }
+
+      button {
+        font-size: 24px;
       }
 
       .search-btn {
-        padding: 14px 16px;
-        font-size: 16px;
+        padding: 22px 18px;
+        border-radius: 18px;
       }
 
       .result-box {
-        min-height: 330px;
-        margin: 18px auto 18px;
-        padding: 22px 18px;
-        font-size: 17px;
-        line-height: 2;
+        min-height: 390px;
+        margin: 24px auto 22px;
+        padding: 28px 20px;
+        font-size: 30px;
+        line-height: 1.85;
+        border-radius: 20px;
       }
 
       .result-title {
-        font-size: 22px;
+        font-size: 34px;
         line-height: 1.5;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+      }
+
+      .empty-text {
+        font-size: 29px;
+        line-height: 1.8;
       }
 
       .exit-btn {
         width: 100%;
-        padding: 14px 16px;
-        font-size: 16px;
+        padding: 22px 18px;
+        font-size: 24px;
+        border-radius: 18px;
       }
     }
   </style>
