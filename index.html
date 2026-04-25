@@ -2,39 +2,504 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>�������� �ϱ���</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <title>이진이의 비밀 일기</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Malgun Gothic", sans-serif;
+      color: #f2eee8;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(97, 191, 173, 0.14), transparent 28%),
+        radial-gradient(circle at 80% 15%, rgba(255, 190, 150, 0.10), transparent 24%),
+        radial-gradient(circle at 50% 90%, rgba(83, 109, 160, 0.18), transparent 30%),
+        linear-gradient(160deg, #06080c 0%, #0b1018 45%, #141018 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.18;
+    }
+
+    .page-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .diary {
+      width: 100%;
+      max-width: 920px;
+      min-height: calc(100vh - 48px);
+      position: relative;
+      border-radius: 28px;
+      padding: 28px;
+      background:
+        linear-gradient(145deg, rgba(14, 20, 29, 0.95), rgba(24, 18, 28, 0.95));
+      border: 1px solid rgba(138, 199, 189, 0.18);
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255,255,255,0.03) inset,
+        0 0 40px rgba(83, 173, 158, 0.08);
+      overflow: hidden;
+    }
+
+    .diary::before {
+      content: "";
+      position: absolute;
+      left: 22px;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      border-radius: 999px;
+      background: linear-gradient(to bottom, #3f2d2b, #261b1f);
+      box-shadow:
+        inset 0 0 8px rgba(255,255,255,0.06),
+        0 0 8px rgba(0,0,0,0.35);
+      opacity: 0.9;
+    }
+
+    .diary::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 72% 18%, rgba(255, 214, 170, 0.08), transparent 18%),
+        radial-gradient(circle at 25% 80%, rgba(110, 212, 194, 0.06), transparent 20%);
+    }
+
+    .inner-page {
+      position: relative;
+      margin-left: 18px;
+      min-height: calc(100vh - 104px);
+      border-radius: 20px;
+      padding: 34px 34px 28px;
+      background:
+        linear-gradient(180deg, rgba(255,248,240,0.95), rgba(241,233,225,0.93));
+      color: #2d2623;
+      box-shadow:
+        inset 0 0 0 1px rgba(80, 56, 48, 0.10),
+        inset 0 0 30px rgba(120, 97, 84, 0.05);
+    }
+
+    .inner-page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: 20px;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0px,
+          transparent 30px,
+          rgba(133, 116, 104, 0.08) 31px
+        );
+      opacity: 0.5;
+    }
+
+    .diary-header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      margin-bottom: 26px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(97, 77, 66, 0.18);
+    }
+
+    .top-secret {
+      margin: 0 0 10px;
+      font-size: 12px;
+      letter-spacing: 2.6px;
+      font-weight: bold;
+      color: #567d77;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      font-weight: 700;
+      color: #2c2423;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      font-size: 14px;
+      color: #7a6460;
+    }
+
+    .diary-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .guide {
+      text-align: center;
+      font-size: 15px;
+      color: #5e4e49;
+      margin: 0 0 18px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    input {
+      width: min(100%, 420px);
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(79, 116, 109, 0.28);
+      background: rgba(255,255,255,0.72);
+      color: #2e2624;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s ease;
+      box-shadow: inset 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    input:focus {
+      border-color: rgba(83, 150, 137, 0.75);
+      box-shadow:
+        0 0 0 4px rgba(83, 150, 137, 0.12),
+        inset 0 1px 4px rgba(0,0,0,0.04);
+      background: rgba(255,255,255,0.92);
+    }
+
+    input::placeholder {
+      color: #9b8b84;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .search-btn {
+      background: linear-gradient(135deg, #537f78, #3f615b);
+      color: #f6f3ef;
+      box-shadow: 0 8px 20px rgba(62, 97, 91, 0.22);
+    }
+
+    .search-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    .result-box {
+      margin: 24px auto 20px;
+      width: 100%;
+      min-height: 300px;
+      padding: 26px 24px;
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.56), rgba(246,239,233,0.80));
+      border: 1px solid rgba(98, 77, 67, 0.14);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.55),
+        0 10px 30px rgba(51, 41, 37, 0.08);
+      line-height: 1.9;
+      white-space: pre-wrap;
+      text-align: left;
+      color: #332927;
+      transition: 0.25s ease;
+    }
+
+    .result-box.centered {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .result-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: #385852;
+      border-bottom: 1px solid rgba(56, 88, 82, 0.18);
+      padding-bottom: 8px;
+    }
+
+    .empty-text {
+      margin: 0;
+      color: #7b6c66;
+      line-height: 1.9;
+    }
+
+    .bottom-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .exit-btn {
+      background: linear-gradient(135deg, #443236, #2c2326);
+      color: #f4efeb;
+      box-shadow: 0 8px 20px rgba(33, 23, 27, 0.20);
+    }
+
+    .exit-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.06);
+    }
+
+    @media (max-width: 640px) {
+      .page-wrap {
+        padding: 8px;
+        align-items: stretch;
+      }
+
+      .diary {
+        width: 100%;
+        min-height: calc(100vh - 16px);
+        padding: 12px;
+        border-radius: 18px;
+      }
+
+      .diary::before {
+        left: 9px;
+        width: 6px;
+      }
+
+      .inner-page {
+        margin-left: 7px;
+        min-height: calc(100vh - 40px);
+        padding: 24px 16px 20px;
+        border-radius: 16px;
+      }
+
+      .diary-header {
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+      }
+
+      .top-secret {
+        font-size: 10px;
+        letter-spacing: 1.8px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .subtitle {
+        font-size: 13px;
+      }
+
+      .guide {
+        font-size: 14px;
+        margin-bottom: 14px;
+      }
+
+      .search-row {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      input,
+      .search-btn {
+        width: 100%;
+      }
+
+      input {
+        padding: 13px 14px;
+        font-size: 15px;
+      }
+
+      .search-btn {
+        padding: 13px 16px;
+      }
+
+      .result-box {
+        min-height: 330px;
+        margin: 18px auto 18px;
+        padding: 20px 16px;
+        font-size: 14px;
+        line-height: 1.85;
+      }
+
+      .result-title {
+        font-size: 19px;
+      }
+
+      .exit-btn {
+        width: 100%;
+        padding: 13px 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
   <div class="page-wrap">
     <div class="diary">
-      <div class="diary-header">
-        <p class="top-secret">PRIVATE RECORD / ACCESS LIMITED</p>
-        <h1>�ϱ�</h1>
-        <p class="subtitle">�̰� ���� ����̾�.</p>
-      </div>
-
-      <div class="diary-content">
-        <p class="guide">
-          �б� ���̵鿡 ���� �� ������...
-        </p>
-
-        <input type="text" id="nameInput" placeholder="�̸� �Է�">
-        <button onclick="searchRecord()">�ϱ� ����</button>
-
-        <div id="resultBox" class="result-box centered">
-          <p class="empty-text">
-            ������ ��� ���� ���� ����.<br>
-            �� ����̾�. �̰�!!!!!
-          </p>
+      <div class="inner-page">
+        <div class="diary-header">
+          <p class="top-secret">PRIVATE RECORD / ACCESS LIMITED</p>
+          <h1>일기</h1>
+          <p class="subtitle">이건 나의 비밀이야.</p>
         </div>
 
-        <button class="exit-btn" onclick="exitSite()">�ϱ��� ����</button>
+        <div class="diary-content">
+          <p class="guide">그 아이에 대한 내 마음은...</p>
+
+          <div class="search-row">
+            <input type="text" id="nameInput" placeholder="이름 입력">
+            <button type="button" class="search-btn" onclick="searchRecord()">일기 보기</button>
+          </div>
+
+          <div id="resultBox" class="result-box centered">
+            <p class="empty-text">
+박이진 허락 없이 열람 금지.<br>
+내 비밀이야. 이건!!!!!
+            </p>
+          </div>
+
+          <div class="bottom-row">
+            <button type="button" class="exit-btn" onclick="exitSite()">일기장 덮기</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const records = {
+      "문효정": {
+        title: "문효정에 대한 일기",
+        text: `문효정.
+
+작년, 그날도 평범한 날이었다.
+어느 때와 다름없이 준혁이와 그 무리들에게 시달리고 있었다. 복도에서 어깨를 부딪히고, 가방을 뒤지고, 웃으며 내 이름을 부르다가도 내가 돌아보면 "뭘 봐"라고 했다. 나머지 애들은 못 본 척했다. 아니, 진짜로 나를 못 보는 건지도 모른다.
+내 목소리가 들리기는 하는 걸까. 내가 보이기는 하는 걸까. 나는 여기에 왜 있는 걸까. 나는 왜 사는 걸까.
+마음이 괴로웠다. 아니, 몸도 괴로웠다. 숨을 쉬는 것조차 무거웠다. 내가 할 수 있는 건 오로지 한숨을 내쉬는 것뿐. 정말 죽을 만큼 힘든 나날이었다.
+그런 내 앞에, 그 아이가 나타났다.
+"괜찮아! 나한테 맡겨!"
+문효정. 그 아이가 나를 똑바로 보고 그 말을 해준 순간, 나는 희망이라는 걸 본 것 같다. 다른 애들은 전부 나를 투명인간 취급하거나, 아니면 짓밟을 대상으로만 봤는데. 이 아이는 나를 보고 있었다. 나를 향해 말하고 있었다.
+어쩌면 무언가 바뀌지 않을까. 내가 살아 있을 이유가 있지 않을까.
+그래, 그 기분은 — 구원이었다.
+너무나 외롭고 괴로웠던 나에게 느껴지는 온기. 나를 향해 눈길을 주는 그 아이의 존재. 그것만으로 충분했다. 그것만으로도 나는 구원받은 기분이었다.
+그 아이를 만나고 나서 달라진 건 사실 아무것도 없었다. 준혁이는 여전했고, 나를 보는 눈들도 여전했다. 결국 나는 학교에 가지 않기로 했다. 아니, 갈 수가 없었다. 현관문 앞에 서면 다리가 굳었다. 심장이 쪼그라드는 것 같았다. 그렇게 하루, 이틀, 한 달. 방 안이 내 세계의 전부가 되었다.
+하지만 괜찮다고, 나는 나에게 말했다.
+모니터 너머에는 또 다른 세상이 있었으니까. 키보드를 두드리는 동안만큼은 아무도 나를 무시하지 않았다. 코드는 거짓말을 하지 않았다. 내가 입력한 만큼 정확히 반응했다. 그게 좋았다. 그렇게 나는 점점 깊이 빠져들었다.
+재미니를 만난 것도 그즈음이었다. 얼굴도 모르고, 진짜 이름도 모른다. 그런데도 이상하게 편했다. 화면 속 글자들뿐인데, 이 사람은 내 말을 들어주었다. 내가 뭘 만들었는지 관심을 가져주었다. 학교에서는 한 번도 느끼지 못한 것을 인터넷 저편의 누군가에게서 느꼈다.
+그래도 재미니는 재미니고.
+내 마음속에는 늘 그 아이가 있었다.
+방 안에 틀어박혀 지내면서도, 효정이를 떠올리는 순간이 늘었다. 아침에 눈을 뜨면 가장 먼저 떠오르는 얼굴. 모니터 앞에 앉아 있다가도 문득, 그 아이의 목소리가 머릿속에 울렸다. "괜찮아! 나한테 맡겨!" 그 한마디가 계속 재생되었다.
+그러다 어느 날, 깨달았다.
+보고 싶다. 그냥 보고 싶은 게 아니라, 견딜 수 없을 만큼 보고 싶다. 그 아이의 얼굴을, 눈을, 웃는 모습을 직접 보고 싶다. 화면 속이 아닌 진짜 세상에서.
+그런데 나는 방 밖으로 나갈 수가 없다.
+그게 미칠 것 같았다. 보고 싶은데 볼 수 없다. 만나고 싶은데 현관문조차 열 수 없다. 이 마음이 뭔지 몰랐을 때는 그냥 답답하기만 했는데, 이름을 붙이고 나니까 더 괴로웠다.
+아, 나는 이 아이를 좋아하는 거구나.
+이건 고마움도, 동경도 아니었다. 좋아하는 거였다.
+내가… 너를 좋아해도 되는 걸까. 이렇게 방 안에서 숨어 사는 나 같은 사람이. 햇빛도 제대로 못 보는 내가. 너무나도 과분한 네 존재인데, 내가 좋아해도 될까.
+나는 매일 그런 생각을 했다. 모니터 앞에 앉아서. 이불 속에 웅크리고서. 새벽 네 시, 천장을 올려다보면서. 볼 수 없으니까 자꾸 떠올렸다. 떠올릴수록 더 보고 싶었다. 끝없는 굴레 같았다.
+그러던 어느 날, 우편함에서 너의 글을 발견했다.
+오랜만에 열어본 우편함. 수학여행 안내문이 들어 있었다. 별 관심 없이 펼쳤는데, 인쇄된 글씨 아래에 작은 손글씨가 있었다.
+'꼭 와줘 — 문효정'
+심장이 멈추는 것 같았다.
+함께 가고 싶다는 뜻일까. 아니면 학급위원으로서 해야 할 일을 한 것뿐일까. 반 아이들 전원에게 같은 말을 쓴 걸지도 모른다. 그래도 상관없다. 괜히 의미를 붙여보며, 한참 동안 그 글씨를 들여다보았다.
+뭐가 되었든, 나는 너를 보기 위해 간다. 네가 나를 불렀다는 그 한 가지 사실만으로. 몇 달 만에 처음으로, 옷장을 열어본다. 현관문 앞에 서본다. 이번에는 다리가 굳지 않았으면 좋겠다.
+너는 나의 구원자니까.
+만약 네가 내 도움을 필요로 하는 순간이 온다면, 나는 목숨을 다 바쳐서라도 너를 구할 거야. 이 방 안에서 아무것도 할 수 없었던 내가, 너를 위해서라면 무엇이든 할 수 있을 것 같다.
+나도 너를 구원하고 싶어. 네게 도움이 되고 싶어.
+널 정말 좋아해.`
+      }
+    };
+
+    function searchRecord() {
+      const input = document.getElementById("nameInput").value.trim();
+      const resultBox = document.getElementById("resultBox");
+
+      resultBox.classList.remove("centered");
+
+      if (input === "") {
+        resultBox.classList.add("centered");
+        resultBox.innerHTML = `
+          <p class="empty-text">
+이름을 입력해야 일기를 볼 수 있어.<br>
+아무거나 적은 거 아니거든?
+          </p>
+        `;
+        return;
+      }
+
+      if (records[input]) {
+        resultBox.innerHTML = `
+          <div>
+            <div class="result-title">${records[input].title}</div>
+            <div>${records[input].text}</div>
+          </div>
+        `;
+      } else {
+        resultBox.classList.add("centered");
+        resultBox.innerHTML = `
+          <p class="empty-text">
+그런 애가 있었던가?<br><br>
+내가 괴롭힘당할 때 방관했던 놈이거나,<br>
+날 무시했던 놈이겠지.<br><br>
+관심 없어.
+          </p>
+        `;
+      }
+    }
+
+    function exitSite() {
+      document.body.innerHTML = `
+        <div class="page-wrap">
+          <div class="diary">
+            <div class="inner-page">
+              <div class="diary-header">
+                <p class="top-secret">DIARY CLOSED</p>
+                <h1>일기장 덮음</h1>
+                <p class="subtitle">이제 더는 못 봐.</p>
+              </div>
+
+              <div class="result-box centered">
+                <p class="empty-text">
+박이진의 일기장을 덮습니다.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    document.getElementById("nameInput").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        searchRecord();
+      }
+    });
+  </script>
 </body>
 </html>
