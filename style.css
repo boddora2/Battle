@@ -112,6 +112,16 @@ button:hover {
   box-sizing: border-box;
 }
 
+.result-box .empty-text {
+  min-height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+  color: #7c6754;
+}
+
 .result-title {
   font-weight: bold;
   font-size: 20px;
