@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>이진이의 일기장</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="page-wrap">
+    <div class="diary">
+      <div class="diary-header">
+        <p class="top-secret">PRIVATE RECORD / ACCESS LIMITED</p>
+        <h1>일기</h1>
+        <p class="subtitle">이건 나의 비밀이야.</p>
+      </div>
+
+      <div class="diary-content">
+        <p class="guide">
+          학교 아이들에 대한 내 생각은...
+        </p>
+
+        <input type="text" id="nameInput" placeholder="이름 입력">
+        <button onclick="searchRecord()">일기 보기</button>
+
+        <div id="resultBox" class="result-box">
+          <p class="empty-text">
+            박이진 허락 없이 열람 금지.<br>
+            내 비밀이야. 이건!!!!!
+          </p>
+        </div>
+
+        <button class="exit-btn" onclick="exitSite()">일기장 덮기</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

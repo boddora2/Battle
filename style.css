@@ -1,0 +1,134 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Malgun Gothic", sans-serif;
+  background: radial-gradient(circle, #2b241c, #090806);
+  color: #2b1b10;
+}
+
+.page-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.diary {
+  width: 90%;
+  max-width: 720px;
+  min-height: 620px;
+  background: #f3dfb8;
+  border: 8px solid #5a3822;
+  border-radius: 18px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+  padding: 38px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.diary::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 2px dashed rgba(90, 56, 34, 0.35);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.diary-header {
+  text-align: center;
+  border-bottom: 2px solid rgba(90, 56, 34, 0.4);
+  padding-bottom: 18px;
+  margin-bottom: 30px;
+}
+
+.top-secret {
+  color: #7a1f1f;
+  font-size: 13px;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+h1 {
+  margin: 8px 0;
+  font-size: 32px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #5c4636;
+}
+
+.diary-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.guide {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+input {
+  width: 70%;
+  max-width: 360px;
+  padding: 13px;
+  border: 2px solid #5a3822;
+  border-radius: 8px;
+  font-size: 16px;
+  background: #fff8e8;
+  box-sizing: border-box;
+}
+
+button {
+  margin-left: 8px;
+  padding: 13px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #5a3822;
+  color: #fff3d8;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #7a4b2d;
+}
+
+.result-box {
+  margin: 30px auto 20px;
+  padding: 24px;
+  width: 90%;
+  min-height: 180px;
+  background: rgba(255, 248, 232, 0.85);
+  border: 2px solid rgba(90, 56, 34, 0.45);
+  border-radius: 12px;
+  text-align: left;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  box-sizing: border-box;
+}
+
+.result-title {
+  font-weight: bold;
+  font-size: 20px;
+  color: #3a1f12;
+  margin-bottom: 12px;
+}
+
+.empty-text {
+  color: #7c6754;
+  text-align: center;
+}
+
+.exit-btn {
+  margin-top: 10px;
+  background: #2f2f2f;
+}
+
+.exit-btn:hover {
+  background: #111;
+}
